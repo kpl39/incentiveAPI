@@ -19,6 +19,10 @@ var server = http.createServer(app);
 app.use(bodyParser.json()); 
 app.use(express.static(__dirname));
 
+var options = {
+  promiseLib: promise
+};
+
 var pgp = require('pg-promise')(options);
 
 //DB connetion for Heroku 
@@ -37,8 +41,13 @@ var dbConnection = {
   database: process.env.RDS_DB_NAME
 }
 
+console.log("DB CONNECTION", dbConnection);
+
 //use connectionString for Heroku 
 var db = pgp(dbConnection);
+
+
+console.log("DB", db);
 
 
 
@@ -77,11 +86,12 @@ var db = pgp(dbConnection);
     res.status(200).jsonp("JSONP is working")
   });
 
-  app.get('/api/getusers/', function(req, res, next) {
-    db.any('select * from users;')
-      .then(respondWithData(res, 'usernames'))
+ app.get('/api/users', function(req, res, next) {
+    console.log('ROUTE CALLED;')
+    db.any('select * from users')
+      .then(respondWithData(res, "User Data"))
       .catch(catchError)
-  })
+  });
 
 
  server.listen(PORT, function(){

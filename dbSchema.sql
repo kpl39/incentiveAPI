@@ -1,3 +1,16 @@
+--connect to aws db
+--psql \
+   --host=aa1ewvskqhxmwet.ca9tur9epv1u.us-east-2.rds.amazonaws.com\
+   --port=5432 \
+   --username kylelinhardt \
+   --password \
+   --dbname=ebdb
+
+--upload schema to aws 
+--psql -f dbSchema.sql --host=aa1ewvskqhxmwet.ca9tur9epv1u.us-east-2.rds.amazonaws.com --username=kylelinhardt --password --dbname=ebdb
+
+
+
 DROP TABLE IF EXISTS users CASCADE;;
 
 
